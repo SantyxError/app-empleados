@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Empleado } from './empleado.model';
+import { EmpleadosService } from './empleados.service';
+import { ServicioEmpleadosService } from './servicio-empleados.service';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +11,14 @@ import { Empleado } from './empleado.model';
 export class AppComponent {
   titulo = 'Lista de empleados';
 
-  empleados: Empleado[] = [
-    new Empleado('Juan', 'Diaz', 'Presidente', 3500),
-    new Empleado('Maria', 'Figueroa', 'Directora', 2500),
-    new Empleado('Pedro', 'Pascual', 'jefe Seccion', 2000),
-    new Empleado('Pablo', 'Gomez', 'Administrativo', 1500),
-  ];
+  constructor(
+    private miServicio: ServicioEmpleadosService,
+    private empleadosService: EmpleadosService
+  ) {
+    this.empleados = this.empleadosService.empleados;
+  }
+
+  empleados: Empleado[] = [];
 
   cuadroNombre: string = '';
   cuadroApellido: string = '';
@@ -28,6 +32,7 @@ export class AppComponent {
       this.cuadroCargo,
       this.cuadroSalario
     );
-    this.empleados.push(miEmpleado);
+    this.miServicio.muestraMensaje('Nombre del empleado: ' + miEmpleado.nombre);
+    this.empleadosService.agregarEmpleadoServicio(miEmpleado);
   }
 }
