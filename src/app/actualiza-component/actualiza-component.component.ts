@@ -21,6 +21,8 @@ export class ActualizaComponentComponent {
 
   indice: number;
 
+  accion: number;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -29,6 +31,8 @@ export class ActualizaComponentComponent {
   ) {}
 
   ngOnInit() {
+    this.accion = parseInt(this.route.snapshot.queryParams['accion']);
+
     this.empleados = this.empleadosService.empleados;
     this.indice = this.route.snapshot.params['id'];
 
@@ -42,18 +46,45 @@ export class ActualizaComponentComponent {
     this.cuadroSalario = empleado.salario;
   }
 
-  actualizaEmpleado() {
-    let miEmpleado = new Empleado(
-      this.cuadroNombre,
-      this.cuadroApellido,
-      this.cuadroCargo,
-      this.cuadroSalario
-    );
-    // this.miServicio.muestraMensaje('Nombre del empleado: ' + miEmpleado.nombre);
-    // this.empleadosService.agregarEmpleadoServicio(miEmpleado);
-    this.empleadosService.actualizarEmpleado(this.indice, miEmpleado);
+  // actualizaEmpleado() {
+  //   let miEmpleado = new Empleado(
+  //     this.cuadroNombre,
+  //     this.cuadroApellido,
+  //     this.cuadroCargo,
+  //     this.cuadroSalario
+  //   );
+  //   // this.miServicio.muestraMensaje('Nombre del empleado: ' + miEmpleado.nombre);
+  //   // this.empleadosService.agregarEmpleadoServicio(miEmpleado);
+  //   this.empleadosService.actualizarEmpleado(this.indice, miEmpleado);
 
-    this.router.navigate(['']);
+  //   this.router.navigate(['']);
+  // }
+
+  // eliminarEmpleado() {
+  //   this.empleadosService.eliminarEmpleado(this.indice);
+
+  //   this.router.navigate(['']);
+  // }
+
+  actualizaEmpleado() {
+    if (this.accion == 1) {
+      let miEmpleado = new Empleado(
+        this.cuadroNombre,
+        this.cuadroApellido,
+        this.cuadroCargo,
+        this.cuadroSalario
+      );
+      // this.miServicio.muestraMensaje('Nombre del empleado: ' + miEmpleado.nombre);
+      // this.empleadosService.agregarEmpleadoServicio(miEmpleado);
+      this.empleadosService.actualizarEmpleado(this.indice, miEmpleado);
+
+      this.router.navigate(['']);
+    }
+    if (this.accion == 2) {
+      this.empleadosService.eliminarEmpleado(this.indice);
+
+      this.router.navigate(['']);
+    }
   }
 
   volverHome() {
